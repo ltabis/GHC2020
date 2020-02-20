@@ -1,13 +1,12 @@
-package output
-
-// package output
+package main
 
 import (
 	"fmt"
 	"os"
+	"strconv"
 )
 
-type output map[string][]int
+type output map[int][]int
 
 func createOutput(out output) {
 	var nbrLib = len(out)
@@ -21,11 +20,14 @@ func createOutput(out output) {
 		fmt.Print("Error: cannot write")
 	}
 	for name, books := range out {
-		file.WriteString(fmt.Sprintf("%s %d\n", name, len(books)))
+		var str = strconv.Itoa(name)
+		str += strconv.Itoa(len(books))
+		str += "\n"
 		for b := range books {
-			file.WriteString(fmt.Sprintf("%d ", b))
+			str += strconv.Itoa(b)
 		}
-		file.WriteString("\n")
+		str += "\n"
+		file.WriteString(str)
 	}
 	file.Close()
 }
