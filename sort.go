@@ -1,3 +1,11 @@
+/*
+*
+*
+*	Bubble sort + test on goroutines and wait-groups
+*
+*
+*/
+
 package main
 
 import(
