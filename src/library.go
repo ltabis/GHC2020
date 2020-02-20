@@ -1,5 +1,5 @@
 
-package library
+package main
 
 type library struct {
 	books    int

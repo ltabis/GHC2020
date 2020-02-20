@@ -1,5 +1,5 @@
 
-package header
+package main
 
 type header struct {
 	books    		int
