@@ -165,9 +165,3 @@ func parser(filename string) (header, []library) {
 	}
 	return h, array_lib
 }
-
-func main() {
-	// a flat file that has 339276 lines of text in it for a size of 62.1 MB
-	filename := "../test.txt"
-	fmt.Println(parser(filename))
-}
