@@ -8,13 +8,13 @@ import (
 
 type output map[int][]int
 
-func main() {
-	var out = map[int][]int{
-		1: []int{1, 2, 3},
-		2: []int{1, 1, 4},
-	}
-	createOutput(out)
-}
+// func main() {
+// 	var out = map[int][]int{
+// 		1: []int{1, 2, 3},
+// 		2: []int{1, 1, 4},
+// 	}
+// 	createOutput(out)
+// }
 
 func createOutput(out output) {
 	var nbrLib = len(out)
@@ -23,10 +23,7 @@ func createOutput(out output) {
 		fmt.Print("Error: cannot create file")
 		return
 	}
-	_, err = file.WriteString(fmt.Sprintf("%d\n", nbrLib))
-	if err != nil {
-		fmt.Print("Error: cannot write")
-	}
+	file.WriteString(fmt.Sprintf("%d\n", nbrLib))
 	for name, books := range out {
 		var str = strconv.Itoa(name)
 		str += " "
