@@ -74,16 +74,20 @@ func parser(path string) (header, library) {
 	return h, l
 }
 */
-func parser(filename string) (header, library) {
+
+func parser(filename string) (header, []library) {
 	file, err := ioutil.ReadFile(filename)
 	if err != nil {
 	}
 	buf := bytes.NewBuffer(file)
 	var i int = 0
-	var lib int = -1
+	var lib int = 0
 	var tmp int = 0
+	var tmp_check = 0
 	h := header{}
 	l := library{}
+
+	array_lib := []library{}
 
 	for {
 		line, err := buf.ReadString('\n')
@@ -92,13 +96,16 @@ func parser(filename string) (header, library) {
 				if err == io.EOF {
 					break
 				}
-				return h, l
+				return h, array_lib
 			}
 		}
 		if err != nil && err != io.EOF {
-			return h, l
+			return h, array_lib
 		}
 		str := strings.Split(line, " ")
+		if tmp_check  == 1 {
+			tmp_check = 0
+		}
 		for index, value := range str {
 			index = index
 			if i == 0 {
@@ -116,18 +123,39 @@ func parser(filename string) (header, library) {
 			} else if i == 1 {
 				tmp, err := strconv.Atoi(value)
 				if err != nil {
-//					fmt.Println("ERROR\n")
+					//fmt.Println("ERROR\n")
 				}
 				h.scores = append(h.scores, tmp)
 			} else {
-				l = l
 				if i % 2 == 0 {
-//					fmt.Println(str)
+					l.name = lib
+					if index == 0 {
+ 						l.books, err = strconv.Atoi(value)
+					}
+					if index == 1 {
+						l.signup, err = strconv.Atoi(value)
+					}
+					if index == 2 {
+						if strings.ContainsAny(value, "\n") {
+							value = strings.Replace(value, "\n", "", len(value))
+						}
+						l.shipping, err = strconv.Atoi(value)
+						//fmt.Println(l, index)
+						if err == nil {
+						}
+					}
 					tmp = 1
 				} else {
-//					fmt.Println(str)
+					tmp, err := strconv.Atoi(value)
+					if err != nil {
+					}
+					l.book_scores = append(l.book_scores, tmp)
+					tmp_check = 1
 				}
 			}
+		}
+		if (tmp_check == 1) {
+			array_lib = append(array_lib, l)
 		}
 		if tmp == 1 {
 			lib++
@@ -135,7 +163,7 @@ func parser(filename string) (header, library) {
 		tmp = 0
 		i++
 	}
-	return h, l
+	return h, array_lib
 }
 
 func main() {
