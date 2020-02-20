@@ -4,7 +4,6 @@ import (
 	"strings"
 	"strconv"
 	"bytes"
-	"fmt"
 	"io"
 	"io/ioutil"
 )
@@ -136,10 +135,4 @@ func parser(filename string) (header, library) {
 		i++
 	}
 	return h, l
-}
-
-func main() {
-	// a flat file that has 339276 lines of text in it for a size of 62.1 MB
-	filename := "../test.txt"
-	fmt.Println(parser(filename))
 }
