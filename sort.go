@@ -2,15 +2,38 @@ package main
 
 import(
 	"fmt"
+	"sync"
 	// "errors"
 )
 
 func main() {
-	array := []int{1, 2, 3, 1, 0, 8, 1}
 
-	fmt.Println("before sort: ", array)
-	bubble_sort(array)
-	fmt.Println("after sort: ", array)
+	// Creating a wait group for parallelism.
+	var wg sync.WaitGroup
+
+	// We're gonna have only one goroutine to wait before exiting the program.
+	wg.Add(1)
+
+	array := []int{1, 2, 3, 1, 0, 8, 1}
+	array2 := []int{1, 2, 3, 1, 0, 8, 1}
+
+	fmt.Println("before sort 1: ", array)
+	fmt.Println("before sort 2: ", array2)
+
+	// goroutine + anonymous function (lambda).
+	go func() {
+		bubble_sort(array)
+
+		// Goroutine as finished, main thread can close.
+		wg.Done()
+	}()
+	bubble_sort(array2)
+
+	// Waiting for the goroutine to finish.
+	wg.Wait()
+
+	fmt.Println("after sort 1: ", array)
+	fmt.Println("after sort 2: ", array2)
 }
 
 // Bubble sort an array of integers.
