@@ -20,7 +20,9 @@ func createOutput(out output) {
 		fmt.Print("Error: cannot write")
 	}
 	for name, books := range out {
-		var str = fmt.Sprintf("%d %d\n", name, len(books))
+		var str = strconv.Itoa(name)
+		str += strconv.Itoa(len(books))
+		str += "\n"
 		for b := range books {
 			str += strconv.Itoa(b)
 		}
